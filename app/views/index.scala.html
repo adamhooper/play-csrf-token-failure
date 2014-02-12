@@ -1,0 +1,15 @@
+@()(implicit request: RequestHeader)
+@import play.filters.csrf.CSRF
+<!DOCTYPE html>
+<html>
+  <head><title>GET page</title></head>
+  <body>
+    <form method="post" action="/post">
+      @defining(CSRF.getToken(request).map(_.value)) { tokenValue =>
+        <p>Found CSRF token: `@tokenValue`</p>
+          <input type="hidden" name="csrfToken" value="@tokenValue.getOrElse("")" />
+      }
+      <input type="submit" value="Go to POST page"/>
+    </form>
+  </body>
+</html>
